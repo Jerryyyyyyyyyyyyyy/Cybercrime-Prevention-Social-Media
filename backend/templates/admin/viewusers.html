@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Users - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f7fa;
+            color: #2c3e50;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 15px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar .logo i {
+            font-size: 26px;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .users-table th {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .users-table td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #34495e;
+        }
+
+        .users-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-info img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #00d4ff;
+        }
+
+        .user-details h4 {
+            font-size: 15px;
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: #95a5a6;
+        }
+
+        .status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.blocked {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .block-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .block-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .unblock-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .unblock-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .no-users {
+            text-align: center;
+            padding: 60px 20px;
+            color: #95a5a6;
+        }
+
+        .no-users i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: #00d4ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #00b0d4;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            margin: 50px 0 20px;
+            color: #95a5a6;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .users-table {
+                font-size: 13px;
+            }
+            .users-table th,
+            .users-table td {
+                padding: 12px 10px;
+            }
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .users-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>CYBERGUARD</span>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'myapp:index' %}"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="{% url 'myapp:viewcomp' %}"><i class="fas fa-file-alt"></i> Complaints</a>
+            <a href="{% url 'myapp:view_post' %}"><i class="fas fa-images"></i> Posts</a>
+            <a href="{% url 'myapp:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Manage Users</h1>
+            <p>View and control user access on the platform</p>
+        </div>
+
+        <a href="{% url 'myapp:index' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        {% if users %}
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Registered On</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>
+                            <div class="user-info">
+                                <img src="{{ user.photo.url }}" alt="{{ user.name }}">
+                                <div class="user-details">
+                                    <h4>{{ user.name }}</h4>
+                                    <p>{{ user.dob }} | {{ user.gender }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ user.LOGIN.date|date:"d M Y" }}</td>
+                        <td>
+                            <span class="status {% if user.LOGIN.type == 'user' %}active{% else %}blocked{% endif %}">
+                                {% if user.LOGIN.type == 'user' %}Active{% else %}Blocked{% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            {% if user.LOGIN.type == 'user' %}
+                                <a href="{% url 'myapp:block_user' user.LOGIN.id %}" class="action-btn block-btn">
+                                    <i class="fas fa-ban"></i> Block
+                                </a>
+                            {% else %}
+                                <a href="{% url 'myapp:unblock_user' user.LOGIN.id %}" class="action-btn unblock-btn">
+                                    <i class="fas fa-check"></i> Unblock
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-users">
+                <i class="fas fa-users"></i>
+                <h3>No Users Registered</h3>
+                <p>The platform currently has no registered users.</p>
+            </div>
+        {% endif %}
+
+        <a href="{% url 'myapp:index' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 <strong>Cybercrime Prevention on Social Media</strong> | Jerin Mathew Vinu (Reg No: 220021089158)</p>
+    </div>
+</body>
+</html>
