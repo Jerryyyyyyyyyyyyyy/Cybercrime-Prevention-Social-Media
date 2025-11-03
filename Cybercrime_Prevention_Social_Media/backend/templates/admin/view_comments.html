@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Posts & Comments - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f7fa;
+            color: #2c3e50;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 15px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar .logo i {
+            font-size: 26px;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .post-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .post-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #00d4ff;
+        }
+
+        .post-user h3 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .post-user p {
+            font-size: 13px;
+            color: #95a5a6;
+        }
+
+        .post-content {
+            padding: 20px;
+        }
+
+        .post-content p {
+            font-size: 15px;
+            color: #34495e;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .comments-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .comments-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comments-title i {
+            color: #00d4ff;
+        }
+
+        .comment {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 4px solid #ddd;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .comment.bullying {
+            border-left-color: #e74c3c;
+            background: #fdf2f2;
+        }
+
+        .comment.safe {
+            border-left-color: #27ae60;
+            background: #f2fdf6;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .comment-user {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .comment-date {
+            font-size: 12px;
+            color: #95a5a6;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            color: #34495e;
+            line-height: 1.5;
+        }
+
+        .ai-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+        }
+
+        .ai-bullying {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .ai-safe {
+            background: #27ae60;
+            color: white;
+        }
+
+        .no-comments {
+            text-align: center;
+            color: #95a5a6;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: #00d4ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #00b0d4;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            margin: 50px 0 20px;
+            color: #95a5a6;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .post-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .post-header img {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>CYBERGUARD</span>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'myapp:index' %}"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="{% url 'myapp:viewuser' %}"><i class="fas fa-users"></i> Users</a>
+            <a href="{% url 'myapp:viewcomp' %}"><i class="fas fa-file-alt"></i> Complaints</a>
+            <a href="{% url 'myapp:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>View Posts & AI-Detected Comments</h1>
+            <p>Monitor user content with real-time cyberbullying detection</p>
+        </div>
+
+        <a href="{% url 'myapp:index' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        {% if posts %}
+            {% for post in posts %}
+            <div class="post-card">
+                <div class="post-header">
+                    <img src="{{ post.USER.photo.url }}" alt="User Photo">
+                    <div class="post-user">
+                        <h3>{{ post.USER.name }}</h3>
+                        <p>Posted on {{ post.date }}</p>
+                    </div>
+                </div>
+
+                <div class="post-content">
+                    <p>{{ post.desc }}</p>
+                    {% if post.photo %}
+                        <img src="{{ post.photo.url }}" alt="Post Image" class="post-image">
+                    {% endif %}
+                </div>
+
+                <div class="comments-section">
+                    <div class="comments-title">
+                        <i class="fas fa-comments"></i>
+                        Comments ({{ post.comments_set.count }})
+                    </div>
+
+                    {% if post.comments_set.all %}
+                        {% for comment in post.comments_set.all %}
+                        <div class="comment {% if comment.status == 'Bullying Words' %}bullying{% else %}safe{% endif %}">
+                            <div class="comment-header">
+                                <span class="comment-user">{{ comment.USER.name }}</span>
+                                <span class="comment-date">{{ comment.date }}</span>
+                            </div>
+                            <div class="comment-text">{{ comment.comments }}</div>
+                            <span class="ai-status 
+                                {% if comment.status == 'Bullying Words' %}ai-bullying{% else %}ai-safe{% endif %}">
+                                {{ comment.status }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-comments">No comments yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="post-card">
+                <div class="post-content" style="text-align: center; padding: 40px;">
+                    <i class="fas fa-images" style="font-size: 48px; color: #ddd; margin-bottom: 15px;"></i>
+                    <p>No posts available.</p>
+                </div>
+            </div>
+        {% endif %}
+
+        <a href="{% url 'myapp:index' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 <strong>Cybercrime Prevention on Social Media</strong> | Jerin Mathew Vinu (Reg No: 220021089158)</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Posts - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f7fa;
+            color: #2c3e50;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 15px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar .logo i {
+            font-size: 26px;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .post-content {
+            padding: 18px;
+        }
+
+        .post-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .post-user img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #00d4ff;
+        }
+
+        .post-user-info h4 {
+            font-size: 15px;
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+
+        .post-user-info p {
+            font-size: 12px;
+            color: #95a5a6;
+        }
+
+        .post-desc {
+            font-size: 14px;
+            color: #34495e;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+
+        .post-actions a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .post-actions a:hover {
+            text-decoration: underline;
+        }
+
+        .no-posts {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #95a5a6;
+        }
+
+        .no-posts i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: #00d4ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #00b0d4;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            margin: 50px 0 20px;
+            color: #95a5a6;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>CYBERGUARD</span>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'myapp:index' %}"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="{% url 'myapp:viewuser' %}"><i class="fas fa-users"></i> Users</a>
+            <a href="{% url 'myapp:viewcomp' %}"><i class="fas fa-file-alt"></i> Complaints</a>
+            <a href="{% url 'myapp:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>View All Posts</h1>
+            <p>Monitor user-generated content on the platform</p>
+        </div>
+
+        <a href="{% url 'myapp:index' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        <div class="posts-grid">
+            {% if posts %}
+                {% for post in posts %}
+                <div class="post-card">
+                    {% if post.photo %}
+                        <img src="{{ post.photo.url }}" alt="Post Image" class="post-image">
+                    {% else %}
+                        <div style="height: 200px; background: #eee; display: flex; align-items: center; justify-content: center; color: #bbb;">
+                            <i class="fas fa-image" style="font-size: 48px;"></i>
+                        </div>
+                    {% endif %}
+
+                    <div class="post-content">
+                        <div class="post-user">
+                            <img src="{{ post.USER.photo.url }}" alt="{{ post.USER.name }}">
+                            <div class="post-user-info">
+                                <h4>{{ post.USER.name }}</h4>
+                                <p>{{ post.date }}</p>
+                            </div>
+                        </div>
+
+                        <p class="post-desc">{{ post.desc|truncatewords:30 }}</p>
+
+                        <div class="post-actions">
+                            <span><i class="fas fa-comment"></i> {{ post.comments_set.count }} Comments</span>
+                            <a href="{% url 'myapp:view_comments' %}#post-{{ post.id }}">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-posts">
+                    <i class="fas fa-images"></i>
+                    <h3>No Posts Available</h3>
+                    <p>Users have not posted anything yet.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'myapp:index' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 <strong>Cybercrime Prevention on Social Media</strong> | Jerin Mathew Vinu (Reg No: 220021089158)</p>
+    </div>
+</body>
+</html>

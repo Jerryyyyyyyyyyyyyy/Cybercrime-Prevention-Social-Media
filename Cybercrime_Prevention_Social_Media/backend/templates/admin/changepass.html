@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            padding: 40px 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #ccc;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #eee;
+            font-weight: 500;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #bbb;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+            transform: scale(1.02);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            border: none;
+            border-radius: 10px;
+            color: #1e3c72;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #00b0d4, #007399);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .success {
+            background: rgba(0, 200, 83, 0.2);
+            border: 1px solid rgba(0, 200, 83, 0.4);
+            color: #a8e6cf;
+        }
+
+        .error {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.4);
+            color: #ff6b6b;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #aaa;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #00d4ff;
+            text-decoration: underline;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
+            background: url('https://i.imgur.com/9X5V5eP.png') center/contain no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo"></div>
+            <h1>Change Password</h1>
+            <p>Secure your admin account</p>
+        </div>
+
+        <form method="post" action="{% url 'myapp:changepass_post' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="old">Current Password</label>
+                <input type="password" id="old" name="old" placeholder="Enter current password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="new">New Password</label>
+                <input type="password" id="new" name="new" placeholder="Enter new password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm">Confirm New Password</label>
+                <input type="password" id="confirm" name="confirm" placeholder="Confirm new password" required>
+            </div>
+
+            {% if success %}
+                <div class="message success">{{ success }}</div>
+            {% endif %}
+
+            {% if error %}
+                <div class="message error">{{ error }}</div>
+            {% endif %}
+
+            <button type="submit" class="btn">Update Password</button>
+        </form>
+
+        <a href="{% url 'myapp:index' %}" class="back-link">Back to Dashboard</a>
+    </div>
+</body>
+</html>
