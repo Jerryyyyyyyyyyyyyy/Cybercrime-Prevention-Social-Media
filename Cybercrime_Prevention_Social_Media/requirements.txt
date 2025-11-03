@@ -1,9 +1,0 @@
-Django>=4.2
-djangorestframework
-Pillow
-numpy
-pandas
-nltk
-tensorflow==2.12.0  # or the TF version you used for training
-# If you will use MySQL, add:
-# mysqlclient
